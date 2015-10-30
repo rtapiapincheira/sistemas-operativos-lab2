@@ -1,7 +1,9 @@
 #include <Thread.h>
-#include <unistd.h>
 
+#include <unistd.h>
 #include <stdio.h>
+
+#include <Exception.h>
 
 void* __internalThreadFunction(void *param) {
     if (param) {
@@ -19,19 +21,13 @@ Thread::Thread(Runnable *runnable) :
 Thread::~Thread() {
 }
 
-/*void Thread::setDaemon(bool isDaemon) {
-    m_isDaemon = isDaemon;
-}*/
-
 void Thread::start() {
     int ret = pthread_create(&m_thread, NULL, __internalThreadFunction, this);
-    if (ret) {
-        printf("Thread creation failed: %d\n", ret);
-        return;
+    if (ret != 0) {
+        throw Exception::build("Thread creation failed", ret);
     }
-    // llamar a pthread create y pasar
-
 }
+
 void Thread::run() {
     // This is expected to be overriden by subclasses, if not, maybe run the
     // argument supplied through constructor. Otherwise it's a silly Thread use.
@@ -39,21 +35,13 @@ void Thread::run() {
         m_runnable->run();
     }
 }
+
 void Thread::join() {
-    pthread_join(m_thread, NULL);
+    int ret = pthread_join(m_thread, NULL);
+    if (ret != 0) {
+        throw Exception::build("Thread join failed", ret);
+    }
 }
-
-/*void Thread::requestStop() {
-
-}
-
-bool Thread::isRunning() {
-
-}
-
-bool Thread::isDead() {
-
-}*/
 
 void Thread::sleep(_llint millis) {
     ::usleep((useconds_t)(millis*1000));

@@ -1,28 +1,38 @@
 #include <Mutex.h>
 
-#include <cstdio>
+#include <Exception.h>
 
 // --------- Mutex implementation
 Mutex::Mutex() {
-    if(pthread_mutex_init(&m_mutex, NULL)) {
-
+    int ret = pthread_mutex_init(&m_mutex, NULL);
+    if(ret != 0) {
+        throw Exception::build("Can't init mutex", ret);
     }
 }
+
 Mutex::~Mutex() {
-    pthread_mutex_destroy(&m_mutex);
+    int ret = pthread_mutex_destroy(&m_mutex);
+    if (ret != 0) {
+        throw Exception::build("Can't destroy mutex", ret);
+    };
 }
 
 void Mutex::lock() {
-    pthread_mutex_lock(&m_mutex);
-
+    throw Exception::build("test!", -1);
+    int ret = pthread_mutex_lock(&m_mutex);
+    if (ret != 0) {
+        throw Exception::build("Can't lock mutex", ret);
+    }
 }
+
 void Mutex::unlock() {
-    pthread_mutex_unlock(&m_mutex);
+    int ret = pthread_mutex_unlock(&m_mutex);
+    if (ret != 0) {
+        throw Exception::build("Can't unlock mutex", ret);
+    }
 }
 
 bool Mutex::tryLock() {
-    //printf("trying to lock\n");
-    //fflush(stdout);
     return (pthread_mutex_trylock(&m_mutex) == 0 ? true : false);
 }
 

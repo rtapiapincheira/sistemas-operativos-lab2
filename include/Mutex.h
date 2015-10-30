@@ -43,6 +43,10 @@ public:
      */
     void unlock();
 
+    /**
+     * @brief tryLock
+     * @return
+     */
     bool tryLock();
 };
 

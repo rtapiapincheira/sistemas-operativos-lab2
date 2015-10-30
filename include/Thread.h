@@ -5,19 +5,23 @@
 
 typedef long long int _llint;
 
+/**
+ * @brief The Runnable class defines an interface for running a piece of code in
+ * a separate thread.
+ */
 class Runnable {
 public:
     virtual void run()=0;
 };
 
+/**
+ * @brief The Thread class represents a lightweight process, with shared memory
+ * useful to achieve paralelism and concurrency for applications.
+ */
 class Thread {
 private:
     Runnable *m_runnable;
-    bool m_shouldStop;
-
     pthread_t m_thread;
-
-    bool m_isDaemon;
 
 public:
     Thread(Runnable *runnable = NULL);
@@ -26,10 +30,6 @@ public:
     void start();
     virtual void run();
     void join();
-
-    /*void requestStop();
-    bool isRunning();
-    bool isDead();*/
 
     static void sleep(_llint millis);
 };
