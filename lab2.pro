@@ -12,11 +12,14 @@ SOURCES += \
     \
     src/Exception.cpp \
     src/Mutex.cpp \
+    src/SolverThread.cpp \
     src/Thread.cpp \
     src/Utils.cpp
 
 HEADERS += \
     include/Exception.h \
+    include/Function.h \
     include/Mutex.h \
+    include/SolverThread.h \
     include/Thread.h \
     include/Utils.h

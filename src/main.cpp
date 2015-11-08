@@ -1,51 +1,61 @@
-#include <Mutex.h>
-#include <Thread.h>
+#include <Exception.h>
+#include <SolverThread.h>
 
+#include <cmath>
 #include <iostream>
+#include <vector>
 using namespace std;
 
-Mutex myMutex;
-
-int myGlobalVariable = 0;
-
-class RunnerThread : public Thread {
+class F1 : public Function {
 public:
-    void run() {
-        //myMutex.lock();
-        for (int j = 0; j < 6; j++) {
-            cout << "RunnerThread(" << j << "), Asignando j=" << j << " a myGlobalVariable" << flush << endl;
-            myGlobalVariable = j;
-            cout << "RunnerThread(" << j << "), Valor de myGlobalVariable:" << myGlobalVariable << flush  << endl;
-        }
-        //myMutex.unlock();
+    virtual double evaluate(double x) {
+        return 1;
+        double x2 = x*x;
+        return x2*x * ::exp(x2);
     }
 };
 
-class ProcessRunnable : public Runnable {
+class MainSolver : public SolverThread {
+private:
+    int m_nThreads;
+
 public:
+    MainSolver(int nThreads, double x1, double x2, Function *f,
+            double step = 1e-6) :
+        SolverThread(x1, x2, f, step), m_nThreads(nThreads)
+    {
+
+    }
+
     virtual void run() {
-        //myMutex.lock();
-        for (int i = 0; i < 6; i++) {
-            cout << "ProcessRunnable(" << i << "), Asignando i=" << i << " a myGlobalVariable" << flush << endl;
-            myGlobalVariable = i;
-            cout << "ProcessRunnable(" << i << "), Valor de myGlobalVariable:" << myGlobalVariable << flush << endl;
+        std::vector<SolverThread> solvers;
+        double span = (m_x2 - m_x1) / m_nThreads;
+        for (int i = 0; i < m_nThreads; i++) {
+            double a = m_x1 + i * span;
+            double b = m_x1 + (i+1) * span;
+            solvers.push_back(SolverThread(a, b, m_f, m_step));
         }
-        //myMutex.unlock();
+        for (int i = 0; i < m_nThreads; i++) {
+            solvers[i].start();
+        }
+        m_result = 0.0;
+        for (int i = 0; i < m_nThreads; i++) {
+            solvers[i].join();
+            m_result += solvers[i].getResult();
+        }
     }
 };
-
 
 int main() {
-
-    ProcessRunnable pr;
-    Thread _rt(&pr);
-    _rt.start();
-
-    RunnerThread rt;
-    rt.start();
-
-    _rt.join();
-    rt.join();
+    F1 myFunction;
+    MainSolver rt(4, -1000.0, 1000.0, &myFunction, 1e-6);
+    try {
+        rt.start();
+        rt.join();
+        cout << "result:" << rt.getResult() << endl;
+    } catch (Exception &e) {
+        cout << e.what() << endl;
+    }
 
     return 0;
 }

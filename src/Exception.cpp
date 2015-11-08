@@ -6,5 +6,5 @@ Exception::Exception(const std::string &message) :
 }
 
 Exception Exception::build(const std::string &message, int code) {
-   return Exception(message + " (" + Utils::int2string(code) + ").");
+   return Exception(message + " (error code " + Utils::int2string(code) + ").");
 }

@@ -14,7 +14,7 @@ Mutex::~Mutex() {
     int ret = pthread_mutex_destroy(&m_mutex);
     if (ret != 0) {
         throw Exception::build("Can't destroy mutex", ret);
-    };
+    }
 }
 
 void Mutex::lock() {
