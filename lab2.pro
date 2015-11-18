@@ -5,21 +5,15 @@ CONFIG -= qt
 
 QMAKE_MAC_SDK = macosx10.11
 
-INCLUDEPATH += include
+INCLUDEPATH += cpp/include
 
 SOURCES += \
-    src/main.cpp \
+    cpp/src/main.cpp \
     \
-    src/Exception.cpp \
-    src/Mutex.cpp \
-    src/SolverThread.cpp \
-    src/Thread.cpp \
-    src/Utils.cpp
+    cpp/src/SolverThread.cpp \
+    cpp/src/Thread.cpp
 
 HEADERS += \
-    include/Exception.h \
-    include/Function.h \
-    include/Mutex.h \
-    include/SolverThread.h \
-    include/Thread.h \
-    include/Utils.h
+    cpp/include/Function.h \
+    cpp/include/SolverThread.h \
+    cpp/include/Thread.h
