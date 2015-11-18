@@ -16,7 +16,7 @@ public:
     /**
      * @brief evaluate Definition of the formula.
      * @param x X coordinate to evalue for this function formlua.
-     * @return Double, whith the Y coordinate for this formula evaluated at x.
+     * @return Double, whth the Y coordinate for this formula evaluated at x.
      */
     virtual double evaluate(double x) = 0;
 

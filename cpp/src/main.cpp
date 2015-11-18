@@ -48,7 +48,7 @@ class MainSolver {
 private:
     // Lower limit for the whole integral.
     double m_a;
-    // Upper limite for the whole integral,
+    // Upper limite for the whole integral.
     double m_b;
     // Width of every interval of the whole interval.
     double m_h;
@@ -146,7 +146,6 @@ int main() {
     for (int i = 0; i < MAX_FUNCTIONS; i++) {
         std::cout << "   opcion #" << i << ": " << functions[i]->getName() << std::endl;
     }
-    fx = 0;
 
     // ------ function index input ------
 #ifdef FX_INDEX
@@ -168,7 +167,7 @@ int main() {
     std::cout << std::endl;
 
     std::cout << "Funcion a integrar      : " << functions[fx]->getName() << std::endl;
-    std::cout << "Numero de particiones   : 3 * (N=" << N << ") = " << (3*N) << std::endl;
+    std::cout << "Numero de particiones   : 3 * (N=" << N << ") = " << (3 * N) << std::endl;
     std::cout << "Limite inferior         : " << a << std::endl;
     std::cout << "Limite superior         : " << b << std::endl;
     std::cout << "Paso (h = (b-a)/N)      : " << std::setprecision(6) << h << std::endl;
