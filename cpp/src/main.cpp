@@ -1,5 +1,7 @@
 #include <SolverThread.h>
 
+#include <Options.h>
+
 #include <cmath>
 #include <iomanip>
 #include <iostream>
@@ -108,7 +110,13 @@ public:
     }
 };
 
-int main() {
+int main(int argc, char **argv) {
+
+    Options options;
+
+    if (!options.parse(argc, argv)) {
+        return 1;
+    }
 
     // Take all the parameters from the input
     double a, b;
@@ -121,7 +129,12 @@ int main() {
     a = LOWER_LIMIT;
     std::cout << a << std::endl;
 #else
-    std::cin >> a;
+    if (options.m_isASet) {
+        a = options.m_a;
+        std::cout << a << std::endl;
+    } else {
+        std::cin >> a;
+    }
 #endif
 
     // ------ upper limit input -----
@@ -130,7 +143,12 @@ int main() {
     b = UPPER_LIMIT;
     std::cout << b << std::endl;
 #else
-    std::cin >> b;
+    if (options.m_isBSet) {
+        b = options.m_b;
+        std::cout << b << std::endl;
+    } else {
+        std::cin >> b;
+    }
 #endif
 
     // ------ number of partitions input -----
@@ -139,7 +157,12 @@ int main() {
     N = NUM_PARTITIONS;
     std::cout << N << std::endl;
 #else
-    std::cin >> N;
+    if (options.m_isNumPartitionsSet) {
+        N = options.m_numPartitions;
+        std::cout << N << std::endl;
+    } else {
+        std::cin >> N;
+    }
 #endif
 
     std::cout << "Seleccione la funcion a integrar (1 - " << MAX_FUNCTIONS << "):" << std::endl;
@@ -152,11 +175,18 @@ int main() {
     fx = FX_INDEX;
     std::cout << " ingrese la opcion: " << fx << std::endl;
 #else
-    do {
+    if (options.m_isFxSet) {
         std::cout << " ingrese la opcion: ";
-        std::cin >> fx;
-    } while (fx < 0 || fx >= MAX_FUNCTIONS);
+        fx = options.m_fx;
+        std::cout << fx << std::endl;
+    } else {
+        do {
+            std::cout << " ingrese la opcion: ";
+            std::cin >> fx;
+        } while (fx < 0 || fx >= MAX_FUNCTIONS);
+    }
 #endif
+    std::cout << std::endl;
 
     // ----- begin to calculate the final results -----
 
