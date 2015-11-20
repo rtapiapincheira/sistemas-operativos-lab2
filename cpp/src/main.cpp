@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
     Options options;
 
     if (!options.parse(argc, argv)) {
-        return 1;
+        //return 1;
     }
 
     // Take all the parameters from the input

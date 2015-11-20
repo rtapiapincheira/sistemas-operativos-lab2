@@ -40,7 +40,7 @@ public class SolverThread extends Thread {
     @Override
     public void run() {
         result = 0.0;
-        for (int i = 0; i < n; i += step) {
+        for (int i = this.i; i < n; i += step) {
             double xi = (h * i) + a;
             result += f.evaluate(xi);
         }
