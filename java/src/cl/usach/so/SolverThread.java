@@ -1,6 +1,5 @@
 package cl.usach.so;
 
-
 /**
  * @brief The SolverThread class represents an integral to be solved in a separate thread.
  */

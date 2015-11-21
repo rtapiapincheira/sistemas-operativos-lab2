@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
 
-  #pragma omp parallel
+  #pragma omp parallel num_threads(5)
   {
     cout << "Hola mundo" << endl;
   }

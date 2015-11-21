@@ -12,12 +12,15 @@ Options::Options() :
 }
 
 bool Options::parse(int argc, char **argv) {
+    // convert every argument to std::string for easy of equality testing
     std::vector<std::string> args;
     for (int i = 0; i < argc; i++) {
         args.push_back(std::string(argv[i]));
     }
 
     for (size_t i = 1; i < args.size(); i += 2) {
+        // take an argument and the next and asume is the command and it
+        // respective argument
         std::string command = args[i];
         if (i+1 >= args.size()) {
             continue;
@@ -31,7 +34,9 @@ bool Options::parse(int argc, char **argv) {
         if (command == "--num_partitions") {
             intArg = Utils::string2int(arg, &ok);
             if (!ok) {
-                std::cout << "Can't parse the argument for the --num_partitions command line option: " << arg << std::endl;
+                std::cout << "Can't parse the argument for the "
+                          << "--num_partitions command line option: "
+                          << arg << std::endl;
                 return false;
             }
             m_numPartitions = intArg;
@@ -47,7 +52,9 @@ bool Options::parse(int argc, char **argv) {
         } else if (command == "--function") {
             intArg = Utils::string2int(arg);
             if (intArg < 0 || intArg > 9) {
-                std::cout << "The argument for the --function command line option is out of range [0,9]: " << arg << std::endl;
+                std::cout << "The argument for the --function command line "
+                          << "option is out of range [0,9]: " << arg
+                          << std::endl;
                 return false;
             }
             m_fx = intArg;

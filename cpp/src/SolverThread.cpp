@@ -1,6 +1,7 @@
 #include <SolverThread.h>
 
-SolverThread::SolverThread(double a, double h, int i, int n, Function *f, int step) :
+SolverThread::SolverThread(double a, double h, int i, int n, Function *f,
+        int step) :
     m_a(a),
     m_h(h),
     m_i(i),

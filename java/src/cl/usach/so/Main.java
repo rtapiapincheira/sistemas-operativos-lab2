@@ -56,19 +56,19 @@ public class Main {
     private static class MainSolver {
 
         // Lower limit for the whole integral.
-        double a;
+        private double a;
 
         // Upper limite for the whole integral.
-        double b;
+        private double b;
 
         // Width of every interval of the whole interval.
-        double h;
+        private double h;
 
         // Number of intervals in which each integral will be divided.
-        int n;
+        private int n;
 
         // Function to integrate (take the address of one instance of the classes defined above).
-        Function f;
+        private Function f;
 
         /**
          * @brief MainSolver constructs a new MainSolver instance, by assigning the integral parameters into local

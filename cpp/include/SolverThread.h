@@ -32,7 +32,8 @@ protected:
     int m_step;
 
 public:
-    SolverThread(double m_a, double m_h, int m_i, int m_n, Function *f, int step);
+    SolverThread(double m_a, double m_h, int m_i, int m_n, Function *f,
+            int step);
 
     virtual void run();
 
