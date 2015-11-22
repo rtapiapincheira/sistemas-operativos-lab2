@@ -1,5 +1,6 @@
 #include <SolverThread.h>
 
+#include <MainSolver.h>
 #include <Options.h>
 
 #include <cmath>
@@ -42,74 +43,6 @@ Function *functions[MAX_FUNCTIONS] = {
     &__f9
 };
 
-/**
- * @brief The MainSolver class handles the creation and collection of child
- * threads.
- */
-class MainSolver {
-private:
-    // Lower limit for the whole integral.
-    double m_a;
-    // Upper limite for the whole integral.
-    double m_b;
-    // Width of every interval of the whole interval.
-    double m_h;
-    // Number of intervals in which each integral will be divided.
-    int m_n;
-    // Function to integrate (take the address of one instance of the classes
-    // defined above).
-    Function *m_f;
-public:
-
-    /**
-     * @brief MainSolver constructs a new MainSolver instance, by assigning the
-     * integral parameters into local instance variables.
-     */
-    MainSolver(double a, double b, double h, int n, Function *f) :
-        m_a(a),
-        m_b(b),
-        m_h(h),
-        m_n(n),
-        m_f(f)
-    {
-    }
-
-    /**
-     * @brief executeThreads Creates, spawns, collects and calculates the final
-     * integral result.
-     * @return double, with the 3/8 simpson compound rule integral result.
-     */
-    double executeThreads() {
-        std::vector<SolverThread> solvers;
-        std::vector<double> factors;
-
-        // each of the sums will be a separate thread, with a corresponding
-        // factor for which the whole sum will weigh.
-        solvers.push_back(SolverThread(m_a, m_h, 0, m_n, m_f, 3)); factors.push_back(3);
-        solvers.push_back(SolverThread(m_a, m_h, 1, m_n, m_f, 3)); factors.push_back(3);
-        solvers.push_back(SolverThread(m_a, m_h, 2, m_n, m_f, 3)); factors.push_back(2);
-
-        // start every thread
-        for (size_t i = 0; i < solvers.size(); i++) {
-            solvers[i].start();
-        }
-
-        // join every thread and afterwards collect its result
-        double result = 0.0;
-        for (size_t i = 0; i < solvers.size(); i++) {
-            solvers[i].join();
-            result += (factors[i] * solvers[i].getResult());
-        }
-
-        // evaluate the function at both ends
-        result += m_f->evaluate(m_a);
-        result += m_f->evaluate(m_b);
-
-        // calculate the final result by using the weighing 3h/8
-        return (3 * m_h * result / 8);
-    }
-};
-
 int main(int argc, char **argv) {
 
     Options options;
@@ -121,6 +54,7 @@ int main(int argc, char **argv) {
     // Take all the parameters from the input
     double a, b;
     int N;
+    int _realN;
     int fx;
 
     // ------ lower limit input -----
@@ -164,6 +98,7 @@ int main(int argc, char **argv) {
         std::cin >> N;
     }
 #endif
+    _realN = 3*N;
 
     std::cout << "Seleccione la funcion a integrar (1 - " << MAX_FUNCTIONS << "):" << std::endl;
     for (int i = 0; i < MAX_FUNCTIONS; i++) {
@@ -190,21 +125,21 @@ int main(int argc, char **argv) {
 
     // ----- begin to calculate the final results -----
 
-    double h = (b - a) / N;
+    double h = (b - a) / _realN;
 
     std::cout << "Resultado Integracion:" << std::endl;
     std::cout << "==========================" << std::endl;
     std::cout << std::endl;
 
     std::cout << "Funcion a integrar      : " << functions[fx]->getName() << std::endl;
-    std::cout << "Numero de particiones   : 3 * (N=" << N << ") = " << (3 * N) << std::endl;
+    std::cout << "Numero de particiones   : 3 * (N=" << N << ") = " << _realN << std::endl;
     std::cout << "Limite inferior         : " << a << std::endl;
     std::cout << "Limite superior         : " << b << std::endl;
     std::cout << "Paso (h = (b-a)/N)      : " << std::setprecision(6) << h << std::endl;
 
     // ----- solve and print the final result -----------
 
-    MainSolver solver(a, b, h, N, functions[fx]);
+    MainSolver solver(a, b, h, _realN, functions[fx]);
 
     double result = solver.executeThreads();
     std::cout << "Resultado de integracion: " << std::setprecision(9) << result << std::endl;

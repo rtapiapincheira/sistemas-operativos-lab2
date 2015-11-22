@@ -10,6 +10,7 @@ INCLUDEPATH += cpp/include
 SOURCES += \
     cpp/src/main.cpp \
     \
+    cpp/src/MainSolver.cpp \
     cpp/src/Options.cpp \
     cpp/src/SolverThread.cpp \
     cpp/src/Thread.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     cpp/include/Function.h \
+    cpp/include/MainSolver.h \
     cpp/include/Options.h \
     cpp/include/SolverThread.h \
     cpp/include/Thread.h \
