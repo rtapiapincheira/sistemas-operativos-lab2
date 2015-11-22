@@ -1,0 +1,29 @@
+all: main
+
+INCLUDES=include/Function.h include/MainSolver.h include/Options.h include/SolverThread.h include/Thread.h include/Utils.h
+OBJS = main.o MainSolver.o Options.o SolverThread.o Thread.o Utils.o
+
+main: $(OBJS)
+	g++ -o main $(OBJS)
+
+main.o: src/main.cpp $(INCLUDES)
+	g++ -c -o main.o -lpthread -Iinclude src/main.cpp
+
+MainSolver.o: src/MainSolver.cpp $(INCLUDES)
+	g++ -c -o MainSolver.o -Iinclude src/MainSolver.cpp
+
+Options.o: src/Options.cpp $(INCLUDES)
+	g++ -c -o Options.o -Iinclude src/Options.cpp
+
+SolverThread.o: src/SolverThread.cpp $(INCLUDES)
+	g++ -c -o SolverThread.o -Iinclude src/SolverThread.cpp
+
+Thread.o: src/Thread.cpp $(INCLUDES)
+	g++ -c -o Thread.o -Iinclude -lpthread src/Thread.cpp 
+
+Utils.o: src/Utils.cpp $(INCLUDES)
+	g++ -c -o Utils.o -Iinclude src/Utils.cpp
+
+clean:
+	rm -rf main *.o
+
