@@ -4,10 +4,10 @@ INCLUDES=include/Function.h include/MainSolver.h include/Options.h include/Solve
 OBJS = main.o MainSolver.o Options.o SolverThread.o Thread.o Utils.o
 
 main: $(OBJS)
-	g++ -o main $(OBJS)
+	g++ -o main $(OBJS) -lpthread
 
 main.o: src/main.cpp $(INCLUDES)
-	g++ -c -o main.o -lpthread -Iinclude src/main.cpp
+	g++ -c -o main.o -Iinclude src/main.cpp
 
 MainSolver.o: src/MainSolver.cpp $(INCLUDES)
 	g++ -c -o MainSolver.o -Iinclude src/MainSolver.cpp
@@ -19,7 +19,7 @@ SolverThread.o: src/SolverThread.cpp $(INCLUDES)
 	g++ -c -o SolverThread.o -Iinclude src/SolverThread.cpp
 
 Thread.o: src/Thread.cpp $(INCLUDES)
-	g++ -c -o Thread.o -Iinclude -lpthread src/Thread.cpp 
+	g++ -c -o Thread.o -Iinclude src/Thread.cpp -lpthread
 
 Utils.o: src/Utils.cpp $(INCLUDES)
 	g++ -c -o Utils.o -Iinclude src/Utils.cpp

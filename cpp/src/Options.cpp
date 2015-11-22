@@ -1,6 +1,7 @@
 #include <Options.h>
 #include <Utils.h>
 
+#include <iostream>
 #include <cstdio>
 
 Options::Options() :
