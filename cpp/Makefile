@@ -1,4 +1,6 @@
 all: main
+run: main
+	./main --num_partitions 100000 --a 0 --b 2 --function 0
 
 INCLUDES=include/Function.h include/MainSolver.h include/Options.h include/SolverThread.h include/Thread.h include/Utils.h
 OBJS = main.o MainSolver.o Options.o SolverThread.o Thread.o Utils.o
