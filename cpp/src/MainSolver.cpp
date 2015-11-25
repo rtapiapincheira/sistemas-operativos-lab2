@@ -22,9 +22,9 @@ double MainSolver::executeThreads() {
 
     std::cout << m_f->getName() << std::endl;
 
-    solvers.push_back(SolverThread(m_a, m_h, 0, m_n, m_f, 3)); factors.push_back(3.0);
-    solvers.push_back(SolverThread(m_a, m_h, 1, m_n, m_f, 3)); factors.push_back(3.0);
-    solvers.push_back(SolverThread(m_a, m_h, 2, m_n, m_f, 3)); factors.push_back(2.0);
+    solvers.push_back(SolverThread(m_a, m_h, 1, m_n-2, m_f, 3)); factors.push_back(3.0);
+    solvers.push_back(SolverThread(m_a, m_h, 2, m_n-1, m_f, 3)); factors.push_back(3.0);
+    solvers.push_back(SolverThread(m_a, m_h, 3, m_n-3, m_f, 3)); factors.push_back(2.0);
 
     // start every thread
     for (size_t i = 0; i < solvers.size(); i++) {

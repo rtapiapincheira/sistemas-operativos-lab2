@@ -14,7 +14,7 @@ SolverThread::SolverThread(double a, double h, int i, int n, Function *f,
 
 void SolverThread::run() {
     m_result = 0;
-    for (int i = m_i; i < m_n; i += m_step) {
+    for (int i = m_i; i <= m_n; i += m_step) {
         double x_i = m_h * i + m_a;
         m_result += m_f->evaluate(x_i);
     }
