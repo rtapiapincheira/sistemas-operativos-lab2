@@ -1,8 +1,6 @@
 #ifndef __THREAD_H_
 #define __THREAD_H_
 
-#include <pthread.h>
-
 typedef long long int _llint;
 
 /**
@@ -18,14 +16,9 @@ public:
  * @brief The Thread class represents a lightweight process, with shared memory
  * useful to achieve paralelism and concurrency for applications.
  */
-class Thread {
+class Thread : public Thread {
 private:
-    /**
-     * @brief Pointer to an object that encapsulates the running logic of a
-     * separate thread.
-     */
     Runnable *m_runnable;
-    pthread_t m_thread;
 
 public:
     /**
@@ -35,12 +28,12 @@ public:
      */
     Thread(Runnable *runnable = NULL);
 
-    ~Thread();
+    virtual ~Thread();
 
     /**
      * @brief start Starts the thread represented by this object.
      */
-    void start();
+    virtual void start() = 0;
 
     /**
      * @brief run Logic to be run in a independant thread. By default, this runs
@@ -53,7 +46,7 @@ public:
     /**
      * @brief join Blocking method that waits this thread to terminate.
      */
-    void join();
+    virtual void join() = 0;
 
     /**
      * @brief sleep Waits at least millis seconds before returning.

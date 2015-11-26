@@ -11,6 +11,7 @@ SolverThread::SolverThread(double a, double h, int i, int n, Function *f,
     m_step(step)
 {
 }
+SolverThread::~SolverThread() {}
 
 void SolverThread::run() {
     m_result = 0;

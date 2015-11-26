@@ -9,9 +9,12 @@ INCLUDEPATH += cpp/include
 
 SOURCES += \
     cpp/src/main.cpp \
+    openmp/main.cpp \
     \
     cpp/src/MainSolver.cpp \
     cpp/src/Options.cpp \
+    cpp/src/OThread.cpp \
+    cpp/src/PThread.cpp \
     cpp/src/SolverThread.cpp \
     cpp/src/Thread.cpp \
     cpp/src/Utils.cpp
@@ -20,6 +23,9 @@ HEADERS += \
     cpp/include/Function.h \
     cpp/include/MainSolver.h \
     cpp/include/Options.h \
+    cpp/include/OThread.h \
+    cpp/include/PThread.h \
     cpp/include/SolverThread.h \
     cpp/include/Thread.h \
     cpp/include/Utils.h
+

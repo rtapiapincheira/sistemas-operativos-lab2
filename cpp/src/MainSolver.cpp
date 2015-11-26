@@ -12,16 +12,13 @@ MainSolver::MainSolver(double a, double b, double h, int n, Function *f) :
     m_f(f)
 {
 }
-#include <iostream>
+
 double MainSolver::executeThreads() {
     std::vector<SolverThread> solvers;
     std::vector<double> factors;
 
     // each of the sums will be a separate thread, with a corresponding
     // factor for which the whole sum will weigh.
-
-    std::cout << m_f->getName() << std::endl;
-
     solvers.push_back(SolverThread(m_a, m_h, 1, m_n-2, m_f, 3)); factors.push_back(3.0);
     solvers.push_back(SolverThread(m_a, m_h, 2, m_n-1, m_f, 3)); factors.push_back(3.0);
     solvers.push_back(SolverThread(m_a, m_h, 3, m_n-3, m_f, 3)); factors.push_back(2.0);
