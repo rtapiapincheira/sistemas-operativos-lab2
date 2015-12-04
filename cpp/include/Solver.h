@@ -1,5 +1,5 @@
-#ifndef __MAINSOLVER_H_
-#define __MAINSOLVER_H_
+#ifndef __SOLVER_H_
+#define __SOLVER_H_
 
 #include <Function.h>
 
@@ -7,8 +7,8 @@
  * @brief The MainSolver class handles the creation and collection of child
  * threads.
  */
-class MainSolver {
-private:
+class Solver {
+protected:
     // Lower limit for the whole integral.
     double m_a;
     // Upper limite for the whole integral.
@@ -26,14 +26,16 @@ public:
      * @brief MainSolver constructs a new MainSolver instance, by assigning the
      * integral parameters into local instance variables.
      */
-    MainSolver(double a, double b, double h, int n, Function *f);
+    Solver(double a, double b, double h, int n, Function *f);
+
+    ~Solver();
 
     /**
      * @brief executeThreads Creates, spawns, collects and calculates the final
      * integral result.
      * @return double, with the 3/8 simpson compound rule integral result.
      */
-    double executeThreads();
+    virtual double executeProcessing() = 0;
 };
 
-#endif // __MAINSOLVER_H_
+#endif // __SOLVER_H_

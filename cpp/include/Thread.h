@@ -1,6 +1,11 @@
 #ifndef __THREAD_H_
 #define __THREAD_H_
 
+#include <pthread/pthread.h>
+//#include <pthread.h>
+
+#include <Function.h>
+
 typedef long long int _llint;
 
 /**
@@ -16,7 +21,7 @@ public:
  * @brief The Thread class represents a lightweight process, with shared memory
  * useful to achieve paralelism and concurrency for applications.
  */
-class Thread : public Thread {
+class Thread {
 private:
     Runnable *m_runnable;
 
@@ -26,7 +31,7 @@ public:
      * thread.
      * @param runnable Optional memory address of a Runnable instance.
      */
-    Thread(Runnable *runnable = NULL);
+    Thread(Runnable *runnable = 0);
 
     virtual ~Thread();
 
@@ -54,6 +59,57 @@ public:
      * @param millis number of milliseconds to wait, at least.
      */
     static void sleep(_llint millis);
+};
+
+class PThread : public Thread {
+private:
+    pthread_t m_thread;
+
+public:
+    PThread(Runnable *runnable = NULL);
+
+    virtual ~PThread();
+
+    virtual void start();
+
+    virtual void join();
+};
+
+/**
+ * @brief The SolverThread class represents an integral to be solved in a
+ * separate thread.
+ */
+class ComputingThread : public PThread {
+protected:
+    // Lower limit for the integral to solver
+    double m_a;
+
+    // Step for consecutive x_i (x_{i+1} - x_i)
+    double m_h;
+
+    // Start for the index to be calculated by this class
+    int m_i;
+
+    // End index for this sum to reach
+    int m_n;
+
+    // Function to integrate
+    Function *m_f;
+
+    // Final result this integral calculated
+    double m_result;
+
+    // Offset for the indexes (i.e. i += m_step)
+    int m_step;
+
+public:
+    ComputingThread(double m_a, double m_h, int m_i, int m_n, Function *f, int step);
+
+    ~ComputingThread();
+
+    virtual void run();
+
+    double getResult();
 };
 
 #endif // __THREAD_H_

@@ -1,6 +1,7 @@
-#include <SolverThread.h>
 
-#include <MainSolver.h>
+#include <ThreadedSolver.h>
+#include <OpenmpSolver.h>
+
 #include <Options.h>
 
 #include <cmath>
@@ -139,9 +140,14 @@ int main(int argc, char **argv) {
 
     // ----- solve and print the final result -----------
 
-    MainSolver solver(a, b, h, _realN, functions[fx]);
+    Solver *solver;
+    if (false) {
+        solver = new ThreadedSolver(a, b, h, _realN, functions[fx]);
+    } else {
+        solver = new OpenmpSolver(a, b, h, _realN, functions[fx]);
+    }
+    double result = solver->executeProcessing();
 
-    double result = solver.executeThreads();
     std::cout << "Resultado de integracion: " << std::setprecision(9) << result << std::endl;
 
     return 0;

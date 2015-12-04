@@ -1,27 +1,26 @@
-#include <MainSolver.h>
-
-#include <SolverThread.h>
+#include <ThreadedSolver.h>
+#include <Thread.h>
 
 #include <vector>
 
-MainSolver::MainSolver(double a, double b, double h, int n, Function *f) :
-    m_a(a),
-    m_b(b),
-    m_h(h),
-    m_n(n),
-    m_f(f)
+ThreadedSolver::ThreadedSolver(double a, double b, double h, int n, Function *f) :
+    Solver(a, b, h, n, f)
 {
 }
 
-double MainSolver::executeThreads() {
-    std::vector<SolverThread> solvers;
+ThreadedSolver::~ThreadedSolver() {
+
+}
+
+double ThreadedSolver::executeProcessing() {
+    std::vector<ComputingThread> solvers;
     std::vector<double> factors;
 
     // each of the sums will be a separate thread, with a corresponding
     // factor for which the whole sum will weigh.
-    solvers.push_back(SolverThread(m_a, m_h, 1, m_n-2, m_f, 3)); factors.push_back(3.0);
-    solvers.push_back(SolverThread(m_a, m_h, 2, m_n-1, m_f, 3)); factors.push_back(3.0);
-    solvers.push_back(SolverThread(m_a, m_h, 3, m_n-3, m_f, 3)); factors.push_back(2.0);
+    solvers.push_back(ComputingThread(m_a, m_h, 1, m_n-2, m_f, 3)); factors.push_back(3.0);
+    solvers.push_back(ComputingThread(m_a, m_h, 2, m_n-1, m_f, 3)); factors.push_back(3.0);
+    solvers.push_back(ComputingThread(m_a, m_h, 3, m_n-3, m_f, 3)); factors.push_back(2.0);
 
     // start every thread
     for (size_t i = 0; i < solvers.size(); i++) {
