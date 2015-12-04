@@ -141,7 +141,7 @@ int main(int argc, char **argv) {
     // ----- solve and print the final result -----------
 
     Solver *solver;
-    if (false) {
+    if (true) {
         solver = new ThreadedSolver(a, b, h, _realN, functions[fx]);
     } else {
         solver = new OpenmpSolver(a, b, h, _realN, functions[fx]);
